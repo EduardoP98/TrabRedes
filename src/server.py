@@ -34,7 +34,7 @@ class ClientHandler(threading.Thread):
         except:
             print "Erro Inesperado;", sys.exc_info()[0]
             fp = open("log.txt","a")
-            fp.write("Erro Inesperado"+ sys.exc_info()[0] + "\n")
+            fp.write("Erro Inesperado\n")
             fp.close()
 
         return input_line
@@ -49,7 +49,7 @@ class ClientHandler(threading.Thread):
         except:
             print "Erro Inesperado;", sys.exc_info()[0]
             fp = open("log.txt","a")
-            fp.write("Erro Inesperado"+ sys.exc_info()[0] + "\n")
+            fp.write("Erro Inesperado\n")
             fp.close()
 
     def register(self):
