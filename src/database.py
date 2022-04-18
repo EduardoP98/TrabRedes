@@ -4,12 +4,13 @@
 import sqlite3 as lite
 import sys
 
+#define o nome da base de dados dos usuarios
 DATABASE_NAME = "users.db"
 
 
 def create_table():
     """
-    creates USERS table if it not exist
+    Cria usuario na tabela de dados, caso eles nao existam
     USERS: (login: username, password: hashed_password, salt: generated_salt_unique_value)
     """
     try:
@@ -31,7 +32,8 @@ def create_table():
 
 def create_user(username, password, salt):
     """
-    insert user into USERS table in database
+    Insere Usuario na tabela USERS da base de dados
+    
     """
     try:
         conn = lite.connect(DATABASE_NAME)
@@ -52,7 +54,7 @@ def create_user(username, password, salt):
 
 def delete_user(username):
     """
-    removes user from USERS table in database
+    Remove usuario da tabela  USERS na base de dados
     """
     try:
         conn = lite.connect(DATABASE_NAME)
@@ -73,7 +75,7 @@ def delete_user(username):
 
 def change_password(username, new_password, new_salt):
     """
-    change password and salt for user into USERS table in database
+    Muda a senha e o valor de salt da tabela USERS na base de dados
     """
     try:
         conn = lite.connect(DATABASE_NAME)
@@ -94,8 +96,8 @@ def change_password(username, new_password, new_salt):
 
 def get_users():
     """
-    prints all users form USERS table in database
-    to test if everything was saved correctly
+    Imprime todos os usuarios da tabela USERS da base de dados
+    Para testar
     """
     try:
         conn = lite.connect(DATABASE_NAME)
@@ -120,8 +122,8 @@ def get_users():
 
 def get_user(username):
     """
-    returns row in database for given username (login)
-    if user does not exist returns None
+    Retorna a linha da base de dados que contem o usuario (login)
+    Se nao existir retorna None
     """
     try:
         conn = lite.connect(DATABASE_NAME)
@@ -142,8 +144,8 @@ def get_user(username):
 
 def get_password(username):
     """
-    returns tuple (password, salt) for given username from database
-    if username does not exist returns None
+    Retorna o registro (password, salt) para dado usuario da base de dados
+    Se nao existir retorna  None
     """
     user = get_user(username)
     if user is not None:
@@ -154,8 +156,8 @@ def get_password(username):
 
 def is_username_taken(username):
     """
-    checks if given username is already taken
-    returns True if taken, False otherwise
+    Checa se o usuario ja foi usado
+    
     """
 
     try:
