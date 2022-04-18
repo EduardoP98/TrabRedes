@@ -1,0 +1,3 @@
+Iniciando Servidor
+Gerando Chaves
+Chaves Geradas com Sucesso
