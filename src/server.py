@@ -33,7 +33,7 @@ class ClientHandler(threading.Thread):
             input_line = self.socket.recv(config.BUFFER_SIZE)
         except:
             print "Erro Inesperado;", sys.exc_info()[0]
-            fp = open("log.txt","w")
+            fp = open("log.txt","a")
             fp.write("Erro Inesperado"+ sys.exc_info()[0] + "\n")
             fp.close()
 
@@ -48,7 +48,7 @@ class ClientHandler(threading.Thread):
             self.socket.send(message + "\n")
         except:
             print "Erro Inesperado;", sys.exc_info()[0]
-            fp = open("log.txt","w")
+            fp = open("log.txt","a")
             fp.write("Erro Inesperado"+ sys.exc_info()[0] + "\n")
             fp.close()
 
@@ -57,7 +57,7 @@ class ClientHandler(threading.Thread):
         register user function
         create user in database if everything succeed
         """
-        fp = open("log.txt","w")
+        fp = open("log.txt","a")
         fp.write("Registrando Novo usuario\n")
         print "Registrando..."
 
@@ -97,10 +97,10 @@ class ClientHandler(threading.Thread):
                 fp.write("Usuario utilizou uma senha Invalida\n")
 
         # password is valid
-        fp.write("Criando Hash")
+        fp.write("Criando Hash\n")
         hashed_password, salt = passwords.hash_password_generate_salt(password)       # create hash
         database.create_user(username, hashed_password, salt)           # create user into database
-        fp.write("Criando Usuario na Base de Dados")
+        fp.write("Criando Usuario na Base de Dados\n")
         self.send("Usuario Registrado com Sucesso! \nAgora voce pode realizar log in")  # confirm successful registration
         fp.write("Usuario Registrado com Sucesso\n")
         fp.close()
@@ -109,13 +109,12 @@ class ClientHandler(threading.Thread):
         login user function
         give an access for successfully logged user
         """
-        fp = open("log.txt","w")
+        fp = open("log.txt","a")
         fp.write("Usuario fazendo Login\n")
         print "Entrando..."
 
         self.send(actions.USERNAME_ACTION)
         username = self.receive()                                       # get username
-        fp.write("Usuario" + username + "tentando acesso\n")
         print username
 
         hashed_password = None
@@ -136,7 +135,7 @@ class ClientHandler(threading.Thread):
         if hashed_password is not None and passwords.check_password(password, nonce, hashed_password):
             self.send("Login Realizado com Sucesso!")                             # passwords matched
             self.logged(username)    
-            fp.write(username + "Realizou Login com Sucesso\n")                                   # access granted
+            fp.write("Usuario Realizou Login com Sucesso\n")                                   # access granted
         else:
             self.send("Usuario ou Senha incorreto(s)")  
             fp.write("O usuario inseriu a senha incorreta\n")                   # passwords mismatch
@@ -147,7 +146,7 @@ class ClientHandler(threading.Thread):
         change password user function
         change password for user in database if everything succeed
         """
-        fp = open("log.txt", "w")
+        fp = open("log.txt", "a")
         fp.write("O Usuario solicitou mudanca de senha\n")
         print "Mudando a senha..."
 
@@ -194,8 +193,8 @@ class ClientHandler(threading.Thread):
         function to handle logged user
         shows menu with actions for logged users
         """
-        fp = open("log.txt","w")
-        fp.write(username+"Logou com sucesso\n")
+        fp = open("log.txt","a")
+        fp.write("O usuario Realizou Login com sucesso\n")
         self.send("Acesso Garantido!")
 
         while True:
@@ -203,7 +202,8 @@ class ClientHandler(threading.Thread):
             self.send(actions.TYPE_ACTION)
             current_type = self.receive()                               # get type
             if current_type is None:                                    # if
-                print "Conexao Perdida"                                 # error occurred
+                print "Conexao Perdida" 
+                fp.write("Conexao Perdida\n")                                # error occurred
                 return                                                  # leave function
             elif current_type == "Mudar Senha" or current_type == "mudar senha":
                 fp.write("O usuario Solicitou mundanca de Senha\n")
@@ -229,7 +229,7 @@ class ClientHandler(threading.Thread):
         main function when thread starts
         to manage connection with client
         """
-        fp = open("log.txt","w")
+        fp = open("log.txt","a")
         fp.write("Usuario Conectado com o Servidor\n")
         self.send("Conectado com o Servidor")
 
