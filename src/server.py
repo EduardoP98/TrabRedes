@@ -118,7 +118,7 @@ class ClientHandler(threading.Thread):
         fp.write("Usuario fazendo Login\n")
         print "Entrando..."
 
-        self.send(actions.USERNAME_ACTION)
+        self.send(actions.USER_ACTION)
         username = self.receive()                                       # Obtem Usuario via socket
         print username
 

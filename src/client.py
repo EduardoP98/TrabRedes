@@ -66,7 +66,7 @@ class Client:
         elif action_name == actions.PASS_ACTION:
             input_line = getpass.getpass("Senha: ")                # Obtem Senha
             if self.send_n:
-                hashed_password = passwords.hashed_password(input_line, self.salt)[0]      # Faz hash da senha
+                hashed_password = passwords.hash_password(input_line, self.salt)[0]      # Faz hash da senha
                 input_line = passwords.hash_password(hashed_password, self.n)[0]     
                 self.send_n = False
         elif action_name == actions.OLD_PASS_ACTION:
@@ -106,6 +106,6 @@ class Client:
             actions_array = action_name.splitlines()
 
             for action in actions_array:
-                self.take_action(action)
+                self.select_action(action)
         print "Conexao Finalizada"
         self.socket.close()                                          # Finaliza o socket quando terminar
